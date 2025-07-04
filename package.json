@@ -2,7 +2,6 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
-  "homepage": "rmtest.upb.ro",
   "dependencies": {
     "@ant-design/react-slick": "^1.1.2",
     "@react-icons/all-files": "^4.1.0",
