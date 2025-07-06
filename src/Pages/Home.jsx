@@ -1,13 +1,9 @@
-import React, { useState } from "react";
-import { FaArrowAltCircleRight } from "react-icons/fa";
-import { FaArrowAltCircleLeft } from "react-icons/fa";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import Slider from "@ant-design/react-slick";
-import { IoIosArrowForward } from "react-icons/io";
-import { IoIosArrowBack } from "react-icons/io";
+import { FaArrowAltCircleLeft, FaArrowAltCircleRight, FaArrowRight } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { FaArrowRight } from "react-icons/fa";
+import "slick-carousel/slick/slick-theme.css";
+import "slick-carousel/slick/slick.css";
+import { SampleNextArrow, SamplePrevArrow } from "../utils/Arrows";
 
 function Home() {
   function CustomSlide(props) {
@@ -61,23 +57,7 @@ function Home() {
       </div>
     );
   }
-  function SampleNextArrow(props) {
-    const { className, style, onClick } = props;
-    return (
-      <div className={className} onClick={onClick}>
-        <IoIosArrowForward />
-      </div>
-    );
-  }
-
-  function SamplePrevArrow(props) {
-    const { className, style, onClick } = props;
-    return (
-      <div className={className} onClick={onClick}>
-        <IoIosArrowBack />
-      </div>
-    );
-  }
+   
   const settings = {
     infinite: true,
     speed: 300,
@@ -109,11 +89,12 @@ function Home() {
         },
       },
     ],
-    nextArrow: <SampleNextArrow className="arrow next" />,
-    prevArrow: <SamplePrevArrow className="arrow prev" />,
+    // nextArrow: <SampleNextArrow className="arrow next" />,
+    // prevArrow: <SamplePrevArrow className="arrow prev" />,
   };
   const settings1 = {
     infinite: true,
+    autoplay:true,
     speed: 300,
     slidesToShow: 1,
     slidesToScroll: 1,

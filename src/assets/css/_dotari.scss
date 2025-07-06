@@ -1,0 +1,60 @@
+.dotari {
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  position: relative;
+
+  .dotare {
+    position: relative;
+    width: 100%;
+    margin: 20px 0;
+    h1 {
+      font-size: 30px;
+      color: $blue_2;
+      margin-bottom: 20px;
+    }
+    .slider-container {
+      .custom-slide {
+        width: 100%;
+        position: relative;
+        display: flex !important;
+        justify-content: center;
+        align-items: center;
+        .sli {
+          max-width: 350px;
+          position: relative;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          p {
+            position: absolute;
+            z-index: 1;
+            background: rgba($blue_2, 0.4);
+            color: $white;
+            width: 100%;
+            left: 0;
+            bottom: 0;
+            font-size: 15px;
+            padding: 14px;
+            font-weight: 500;
+            line-height: 1.2;
+          }
+          img {
+            width: 100%;
+            z-index: 0;
+
+            position: relative;
+            border: 15px;
+
+            &::after {
+              content: "";
+            }
+          }
+        }
+      }
+    }
+  }
+}

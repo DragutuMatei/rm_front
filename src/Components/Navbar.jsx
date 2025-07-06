@@ -6,11 +6,24 @@ function Navbar() {
   const [dropdownOpen, setDropdownOpen] = useState({});
   const dropdownRef = useRef(null);
 
-  const toggleDropdown = (menu) => {
-    setDropdownOpen((prev) => ({
-      ...Object.keys(prev).reduce((acc, key) => ({ ...acc, [key]: false }), {}), // Close all other dropdowns
-      [menu]: !prev[menu],
-    }));
+  const toggleDropdown = (menu, level = 1) => {
+    setDropdownOpen((prev) => {
+      // Pentru submeniurile de nivel 2, păstrează starea părintelui
+      if (level === 2) {
+        return {
+          ...prev,
+          [menu]: !prev[menu],
+        };
+      }
+      // Pentru meniurile de nivel 1, închide toate celelalte
+      return {
+        ...Object.keys(prev).reduce(
+          (acc, key) => ({ ...acc, [key]: false }),
+          {}
+        ),
+        [menu]: !prev[menu],
+      };
+    });
   };
 
   const closeAllDropdowns = () => {
@@ -35,16 +48,24 @@ function Navbar() {
     {
       title: "Admitere",
       submenu: [
-        { title: "Licență", path: "/licenta" },
-        { title: "Masterat", path: "/masterat" },
-        { title: "Doctorat", path: "/doctorat" },
+        { title: "Licență", path: "/licenta", download: false },
+        { title: "Masterat", path: "/masterat", download: false },
+        { title: "Doctorat", path: "/doctorat", download: false },
       ],
     },
     {
       title: "Programe de studii",
       submenu: [
-        { title: "Studii de licență", path: "/studii-licenta" },
-        { title: "Masterat", path: "/masterat-studii" },
+        {
+          title: "Studii de licență",
+          path: require("../assets/docs/Plan_invatamant_CSM-1.pdf"),
+          download: true,
+        },
+        {
+          title: "Masterat",
+          path: require("../assets/docs/Plan_de_invatamant_Masterat_SIS_UPB.pdf"),
+          download: true,
+        },
       ],
     },
     {
@@ -53,23 +74,27 @@ function Navbar() {
         {
           title: "Centrul CCMA",
           submenu: [
-            { title: "Conducere", path: "/ccma-conducere" },
-            { title: "Servicii", path: "/ccma-servicii" },
-            { title: "Doctori", path: "/ccma-doctori" },
-            { title: "Proiecte derulate", path: "/ccma-proiecte" },
+            { title: "Conducere", path: "/ccma", download: false },
+            { title: "Servicii", path: "/ccma-servicii", download: false },
+            { title: "Dotari", path: "/dotari", download: false },
+            {
+              title: "Proiecte derulate",
+              path: "/ccma-proiecte",
+              download: false,
+            },
           ],
         },
-        { title: "Laboratoare", path: "/laboratoare" },
-        { title: "Parteneri", path: "/parteneri" },
+        { title: "Laboratoare", path: "/laboratoare", download: false },
+        { title: "Parteneri", path: "/parteneri", download: false },
       ],
     },
     {
       title: "Evenimente",
       submenu: [
-        { title: "Anunțuri", path: "/anunturi" },
-        { title: "SCSS", path: "/scss" },
-        { title: "CCT", path: "/cct" },
-        { title: "ICSAM", path: "/icsam" },
+        { title: "Anunțuri", path: "/anunturi", download: false },
+        { title: "SCSS", path: "/scss", download: false },
+        { title: "CCT", path: "/cct", download: false },
+        { title: "ICSAM", path: "/icsam", download: false },
       ],
     },
   ];
@@ -101,7 +126,7 @@ function Navbar() {
                 <div className="dropdown">
                   <span
                     className="dropdown-toggle"
-                    onClick={() => toggleDropdown(item.title)}
+                    onClick={() => toggleDropdown(item.title, 1)}
                   >
                     {item.title}
                   </span>
@@ -116,7 +141,7 @@ function Navbar() {
                           <div className="dropdown">
                             <span
                               className="dropdown-toggle"
-                              onClick={() => toggleDropdown(subItem.title)}
+                              onClick={() => toggleDropdown(subItem.title, 2)}
                             >
                               {subItem.title}
                             </span>
@@ -130,7 +155,7 @@ function Navbar() {
                                   <Link
                                     to={nestedItem.path}
                                     key={nestedIndex}
-                                    onClick={() => setIsOpen(false)}
+                                    onClick={closeAllDropdowns}
                                   >
                                     {nestedItem.title}
                                   </Link>
@@ -138,11 +163,16 @@ function Navbar() {
                               )}
                             </div>
                           </div>
-                        ) : (
-                          <Link
-                            to={subItem.path}
-                            onClick={() => setIsOpen(false)}
+                        ) : subItem.download ? (
+                          <a
+                            href={subItem.path}
+                            download={true}
+                            onClick={closeAllDropdowns}
                           >
+                            {subItem.title}
+                          </a>
+                        ) : (
+                          <Link to={subItem.path} onClick={closeAllDropdowns}>
                             {subItem.title}
                           </Link>
                         )}
@@ -151,7 +181,7 @@ function Navbar() {
                   </div>
                 </div>
               ) : (
-                <Link to={item.path} onClick={() => setIsOpen(false)}>
+                <Link to={item.path} onClick={closeAllDropdowns}>
                   {item.title}
                 </Link>
               )}
